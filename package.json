@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "index.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rami3rouhana/todo-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rami3rouhana/todo-app/issues"
+  },
+  "homepage": "https://github.com/rami3rouhana/todo-app#readme",
+  "description": ""
+}
