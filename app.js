@@ -19,9 +19,13 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
+    newName = req.body.name 
+    const newData = {
+        [newName]:"false"
+    };
     const task = {
         ...todoList,
-        ...req.body
+        ...newData
     }
     let data = JSON.stringify(task);
     fs.writeFile('todo.json', data, (err) => {
@@ -51,17 +55,10 @@ app.delete('/soft', (req, res) => {
     res.status(200).send("ok")
 })
 
-app.put('/', (req, res) => {
+app.put('/', async(req, res) => {
     const dataName = req.body.newName
-    console.log(req.body.newName)
-    if(!req.body.status){
-        dataValue = todoList[req.body.oldName]
-    }
-    else{
-        dataValue = req.body.status
-    }
     const newData = {
-        [dataName]:dataValue
+        [dataName]:req.body.status
     };
     delete todoList[req.body.oldName]; 
     const task = {
@@ -69,12 +66,19 @@ app.put('/', (req, res) => {
         ...newData
     }
     let data = JSON.stringify(task);
-    fs.writeFile('todo.json', data, (err) => {
-        if (err) throw err;
-        console.log('Data written to file');
-    });
-    res.status(200).send("ok")
-})
+    fs.writeFile("todo.json", data, (err) => {
+        if (err)
+          console.log(err);
+        else {
+          console.log("File written successfully\n");
+          console.log("The written has the following contents:");
+          console.log(fs.readFileSync("todo.json", "utf8"));
+          res.send(todoList);
+        }
+      });
+
+    })
+
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)

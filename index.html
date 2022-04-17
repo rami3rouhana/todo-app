@@ -34,6 +34,29 @@
         </div>
       </div>
 
+      <div class="modal" tabindex="-1" id="adds">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="Ad-Form">
+                    <div class="form-group">
+                      <label for="text">Task</label>
+                      <input type="text" class="form-control" id="nam" placeholder="Task">
+                      </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" id="buttonID" class="btn btn-primary add-task" data-bs-dismiss="modal">Add Task</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal" tabindex="-1" id="edit">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -42,10 +65,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="Edit-Form">
                     <div class="form-group">
-                      <label for="text">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Name">
+                      <label for="text">Task</label>
+                      <input type="text" class="form-control" id="name" placeholder="Task">
                       </div>
                     <div class="form-check">
                       <label class="form-check-label " for="exampleCheck1">Status done</label>
@@ -53,8 +76,8 @@
                     </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary save-change" data-bs-dismiss="modal">Save Changes</button>
+              <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" id="buttonID" class="btn btn-primary save-change" data-bs-dismiss="modal">Save Changes</button>
             </form>
             </div>
           </div>
