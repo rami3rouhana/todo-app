@@ -67,8 +67,8 @@ app.put('/', async (req, res) => {
   else
     dataStatus = 0
   const oldName = req.body.oldName
-  var editSql = "UPDATE `tasks` SET `task`='" + dataName + "',`status`='" + dataStatus + "' WHERE `task`='" + oldName + "'"
-  con.query(editSql, function (err, result) {
+  var editSql = "UPDATE `tasks` SET `task`=?, `status`=? WHERE `task`=?"
+  con.query(editSql, [dataName,dataStatus,oldName], function (err, result) {
     if (err) throw err;
     console.log("Data Updated");
     res.status(200).send("ok")
