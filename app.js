@@ -6,78 +6,74 @@ const fs = require('fs');
 const path = require('path');
 app.use(express.json());
 
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "todo"
+});
+
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+
 let rawData = fs.readFileSync(path.resolve(__dirname, 'todo.json'));
 let todoList = JSON.parse(rawData);
 
 app.use(cors({
-    origin: 'http://127.0.0.1:5500'}
+  origin: 'http://127.0.0.1:5500'
+}
 ))
-  
+
 
 app.get('/', (req, res) => {
-    res.send(todoList);
-})
+  results = con.query("SELECT * FROM `tasks`", function (err, result) {
+    if (err) throw err;
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(result);
+  });
+});
 
 app.post('/', (req, res) => {
-    newName = req.body.name 
-    const newData = {
-        [newName]:"false"
-    };
-    const task = {
-        ...todoList,
-        ...newData
-    }
-    let data = JSON.stringify(task);
-    fs.writeFile('todo.json', data, (err) => {
-        if (err) throw err;
-        console.log('Data written to file');
-    });
+  var insert = "INSERT INTO `tasks`(`task`, `status`) VALUES (?,0)"
+  var taskname = req.body.name
+  con.query(insert, taskname, function (err, result) {
+    if (err) throw err;
+    console.log("Data inserted");
     res.status(200).send("ok")
-})
+  });
+});
 
 app.delete('/hard', (req, res) => {
-    delete todoList[req.body.name];
-    let data = JSON.stringify(todoList);
-    fs.writeFile('todo.json', data, (err) => {
-        if (err) throw err;
-        console.log('Data written to file');
-    });
+  var deleteSql = "DELETE FROM `tasks` WHERE task=?"
+  var taskNamed = req.body.name
+  con.query(deleteSql, taskNamed, function (err, result) {
+    if (err) throw err;
+    console.log("Data Deleted");
     res.status(200).send("ok")
-})
+  });
+});
 
-app.delete('/soft', (req, res) => {
-    todoList[req.body.name]=false;
-    let data = JSON.stringify(todoList);
-    fs.writeFile('todo.json', data, (err) => {
-        if (err) throw err;
-        console.log('Data written to file');
-    });
+
+
+app.put('/', async (req, res) => {
+  const dataName = req.body.newName
+  if (req.body.status == true)
+    dataStatus = 1
+  else
+    dataStatus = 0
+  const oldName = req.body.oldName
+  var editSql = "UPDATE `tasks` SET `task`='" + dataName + "',`status`='" + dataStatus + "' WHERE `task`='" + oldName + "'"
+  con.query(editSql, function (err, result) {
+    if (err) throw err;
+    console.log("Data Updated");
     res.status(200).send("ok")
+  })
 })
-
-app.put('/', async(req, res) => {
-    const dataName = req.body.newName
-    const newData = {
-        [dataName]:req.body.status
-    };
-    delete todoList[req.body.oldName]; 
-    const task = {
-        ...todoList,
-        ...newData
-    }
-    let data = JSON.stringify(task);
-    fs.writeFile("todo.json", data, (err) => {
-        if (err)
-          console.log(err);
-        else {
-          console.log("File written successfully\n");
-          console.log("The written has the following contents:");
-          console.log(fs.readFileSync("todo.json", "utf8"));
-          res.send(todoList);
-        }
-      });
-
-    })
 
 
 app.listen(port, () => {

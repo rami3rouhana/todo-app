@@ -20,8 +20,8 @@ $(document).ready(function () {
         lists = await fetch("http://127.0.0.1:6969/")
         lists = await lists.json()
         for (const list in lists) {
-            html = html + "<tr><td>" + list + "</td><td>"
-            if (lists[list] == true) {
+            html = html + "<tr><td>" + lists[list].task + "</td><td>"
+            if (lists[list].status == true) {
                 html = html + '<div class="badge bg-success status">Done</div></td><td>'
             }
             else {
@@ -85,8 +85,8 @@ $(document).ready(function () {
         data = JSON.stringify({
             name: addName
         })
-        tasks.text(addName)
         const test = add();
+        table.innerHTML=table.innerHTML+"<tr><td>"+addName+"</td><td><div class='badge bg-danger status'>Not Done</div></td><td>"+btn1+btn2
 
     })
     $(".save-change").click(function (e) {
@@ -116,11 +116,7 @@ $(document).ready(function () {
         })
         tasks.text(newName)
         const test = change();
-        const test2 = update()
 
     })
-    $("#Ad-Form").submit(function (e) {
-        e.preventDefault();
-    });
     update()
 }); 
