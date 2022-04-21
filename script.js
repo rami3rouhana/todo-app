@@ -86,7 +86,6 @@ $(document).ready(function () {
             name: addName
         })
         const test = add();
-        table.innerHTML=table.innerHTML+"<tr><td>"+addName+"</td><td><div class='badge bg-danger status'>Not Done</div></td><td>"+btn1+btn2
 
     })
     $(".save-change").click(function (e) {
