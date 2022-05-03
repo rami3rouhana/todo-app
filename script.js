@@ -18,7 +18,7 @@ $(document).ready(function () {
 
     const update = async () => {
         lists = await fetch("http://127.0.0.1:6969/")
-        lists = await lists.json()
+        
         for (const list in lists) {
             html = html + "<tr><td>" + list + "</td><td>"
             if (lists[list] == true) {
@@ -48,6 +48,8 @@ $(document).ready(function () {
     });
     $(document).on('click', ".delete-button", function (e) {
         deleteId = $(e.target).parent().parent()
+        status = $(e.target).parent().parent()
+        
 
     });
     $(".confirm").click(function (e) {
@@ -58,7 +60,10 @@ $(document).ready(function () {
         await fetch("http://127.0.0.1:6969/hard", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "name": deleteId.children(":first-child").text() })
+            body: JSON.stringify({ 
+                "name": deleteId.children(":first-child").text(),
+                "stat": status.children(":first-child").next().text()
+        })
 
         })
     }
